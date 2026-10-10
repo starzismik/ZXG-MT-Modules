@@ -82,6 +82,10 @@ jobs:
               text = re.sub(r'ZXG-MT-Modules-\d+\.\d+\.\d+\.exe', 'ZXG-MT-Modules-' + number + '.exe', text)
               return re.sub(r'Version \d+\.\d+\.\d+', 'Version ' + number, text)
 
+          def update_badge(text, total):
+              pattern = r'(url=https%3A%2F%2Fraw\.githubusercontent\.com%2Fstarzismik%2FZXG-MT-Modules%2Fmain%2Fdownloads\.json)(?:%3Ftotal%3D\d+)?'
+              return re.sub(pattern, lambda match: match.group(1) + '%3Ftotal%3D' + str(total), text)
+
           def main():
               repository = os.environ['REPOSITORY']
               if repository != 'starzismik/ZXG-MT-Modules':
@@ -107,10 +111,11 @@ jobs:
               state = count_downloads(previous, releases)
               badge = {'schemaVersion': 1, 'label': 'TÉLÉCHARGEMENTS', 'message': str(state['totalDownloads']), 'color': '2f80c9'}
               latest = api('/releases/latest', missing_ok=True)
+              readme = pathlib.Path('README.md')
+              readme_text = update_badge(readme.read_text(), state['totalDownloads'])
               if latest:
                   number, url = verify_latest(latest, releases, repository)
-                  readme = pathlib.Path('README.md')
-                  readme.write_text(update_readme(readme.read_text(), number, url))
+                  readme_text = update_readme(readme_text, number, url)
                   policy_file = pathlib.Path('mt-modules-control.json')
                   policy = json.loads(policy_file.read_text())
                   if policy.get('application') != 'ZXG-MT-Modules' or policy.get('schema') != 1 or not version(policy.get('minimumVersion')):
@@ -119,6 +124,7 @@ jobs:
                       policy['minimumVersion'] = number
                   policy['prototypeVersion'] = None
                   policy_file.write_text(json.dumps(policy, ensure_ascii=False, indent=2) + '\n')
+              readme.write_text(readme_text)
               for filename, data in [('downloads-state.json', state), ('downloads.json', badge)]:
                   pathlib.Path(filename).write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
               files = ['downloads-state.json', 'downloads.json', 'README.md', 'mt-modules-control.json']
