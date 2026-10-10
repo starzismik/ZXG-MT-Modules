@@ -1,0 +1,144 @@
+name: Actualiser les téléchargements et les releases
+
+on:
+  workflow_dispatch:
+    inputs:
+      cleanup:
+        description: Supprimer les anciennes releases après vérification de la dernière
+        type: boolean
+        default: false
+  schedule:
+    - cron: "*/5 * * * *"
+  release:
+    types: [published]
+
+permissions:
+  contents: write
+
+concurrency:
+  group: mt-modules-release-maintenance
+  cancel-in-progress: false
+
+jobs:
+  maintain:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Récupérer la présentation
+        uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          ref: main
+      - name: Actualiser le compteur et vérifier la release
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          CLEANUP: ${{ github.event_name == 'release' || inputs.cleanup == true }}
+        run: |
+          python3 - <<'PY'
+          import json, os, pathlib, re, subprocess, urllib.request, urllib.error, urllib.parse
+
+          def version(tag):
+              match = re.fullmatch(r'v?(0|[1-9]\d*)\.(0|[1-9]\d*)\.(0|[1-9]\d*)', str(tag))
+              return tuple(map(int, match.groups())) if match else None
+
+          def count_downloads(previous, releases):
+              if previous.get('schema') != 1 or not isinstance(previous.get('assets'), dict):
+                  raise ValueError('État du compteur invalide')
+              assets = dict(previous['assets'])
+              if any(not key.isdecimal() or not isinstance(value, int) or isinstance(value, bool) or value < 0 for key, value in assets.items()):
+                  raise ValueError('Compteur invalide')
+              for release in releases:
+                  if release.get('draft') or release.get('prerelease') or version(release.get('tag_name')) is None:
+                      continue
+                  for asset in release.get('assets', []):
+                      if not re.fullmatch(r'ZXG-MT-Modules-\d+\.\d+\.\d+\.zip', asset.get('name', '')) or asset.get('state') != 'uploaded':
+                          continue
+                      count, identifier = asset['download_count'], asset['id']
+                      if not isinstance(identifier, int) or identifier <= 0 or not isinstance(count, int) or isinstance(count, bool) or count < 0:
+                          raise ValueError('Téléchargement invalide')
+                      key = str(identifier)
+                      assets[key] = max(assets.get(key, 0), count)
+              return {'schema': 1, 'assets': assets, 'totalDownloads': sum(assets.values())}
+
+          def verify_latest(latest, releases, repository):
+              current = version(latest.get('tag_name'))
+              if not current or latest.get('draft') or latest.get('prerelease') or latest.get('author', {}).get('login') != 'starzismik':
+                  raise ValueError('Release officielle invalide')
+              if any(version(r.get('tag_name')) and version(r['tag_name']) > current for r in releases if not r.get('draft') and not r.get('prerelease')):
+                  raise ValueError('La dernière release ne doit pas revenir à une ancienne version')
+              number = '.'.join(map(str, current))
+              name = 'ZXG-MT-Modules-' + number + '.zip'
+              expected = 'https://github.com/' + repository + '/releases/download/' + urllib.parse.quote(latest['tag_name'], safe='') + '/' + name
+              assets = latest.get('assets', [])
+              if len(assets) != 1 or assets[0].get('name') != name or assets[0].get('state') != 'uploaded' or assets[0].get('browser_download_url') != expected or assets[0].get('size', 0) <= 0 or not re.fullmatch(r'sha256:[a-fA-F0-9]{64}', assets[0].get('digest', '')):
+                  raise ValueError('Le ZIP unique de la dernière release doit être disponible et vérifié')
+              return number, expected
+
+          def older_releases(latest, releases):
+              current = version(latest['tag_name'])
+              return [r for r in releases if not r.get('draft') and not r.get('prerelease') and r.get('author', {}).get('login') == 'starzismik' and version(r.get('tag_name')) and version(r['tag_name']) < current]
+
+          def update_readme(text, number, url):
+              text = re.sub(r'https://github\.com/starzismik/ZXG-MT-Modules/releases/download/v?\d+\.\d+\.\d+/ZXG-MT-Modules-\d+\.\d+\.\d+\.zip', lambda _: url, text)
+              text = re.sub(r'ZXG-MT-Modules-\d+\.\d+\.\d+\.exe', 'ZXG-MT-Modules-' + number + '.exe', text)
+              return re.sub(r'Version \d+\.\d+\.\d+', 'Version ' + number, text)
+
+          def main():
+              repository = os.environ['REPOSITORY']
+              if repository != 'starzismik/ZXG-MT-Modules':
+                  raise ValueError('Dépôt non autorisé')
+              def api(endpoint, method='GET', missing_ok=False):
+                  request = urllib.request.Request('https://api.github.com/repos/' + repository + endpoint, method=method, headers={'Authorization': 'Bearer ' + os.environ['GH_TOKEN'], 'Accept': 'application/vnd.github+json', 'X-GitHub-Api-Version': '2022-11-28', 'User-Agent': 'ZXG-MT-Modules-maintenance'})
+                  try:
+                      with urllib.request.urlopen(request, timeout=30) as response:
+                          payload = response.read()
+                          return json.loads(payload) if payload else None
+                  except urllib.error.HTTPError as error:
+                      if missing_ok and error.code == 404:
+                          return None
+                      raise
+              releases, page = [], 1
+              while True:
+                  batch = api('/releases?per_page=100&page=' + str(page))
+                  releases.extend(batch)
+                  if len(batch) < 100:
+                      break
+                  page += 1
+              previous = json.loads(pathlib.Path('downloads-state.json').read_text())
+              state = count_downloads(previous, releases)
+              badge = {'schemaVersion': 1, 'label': 'TÉLÉCHARGEMENTS', 'message': str(state['totalDownloads']), 'color': '2f80c9'}
+              latest = api('/releases/latest', missing_ok=True)
+              if latest:
+                  number, url = verify_latest(latest, releases, repository)
+                  readme = pathlib.Path('README.md')
+                  readme.write_text(update_readme(readme.read_text(), number, url))
+                  policy_file = pathlib.Path('mt-modules-control.json')
+                  policy = json.loads(policy_file.read_text())
+                  if policy.get('application') != 'ZXG-MT-Modules' or policy.get('schema') != 1 or not version(policy.get('minimumVersion')):
+                      raise ValueError('Contrôle de version invalide')
+                  if version(policy['minimumVersion']) < version(number):
+                      policy['minimumVersion'] = number
+                  policy['prototypeVersion'] = None
+                  policy_file.write_text(json.dumps(policy, ensure_ascii=False, indent=2) + '\n')
+              for filename, data in [('downloads-state.json', state), ('downloads.json', badge)]:
+                  pathlib.Path(filename).write_text(json.dumps(data, ensure_ascii=False, indent=2) + '\n')
+              files = ['downloads-state.json', 'downloads.json', 'README.md', 'mt-modules-control.json']
+              changed = subprocess.run(['git', 'diff', '--quiet', '--'] + files).returncode
+              if changed not in (0, 1):
+                  raise ValueError('Vérification Git impossible')
+              if changed:
+                  subprocess.run(['git', 'config', 'user.name', 'STARZISMIK'], check=True)
+                  subprocess.run(['git', 'config', 'user.email', '250215494+starzismik@users.noreply.github.com'], check=True)
+                  subprocess.run(['git', 'add', '--'] + files, check=True)
+                  subprocess.run(['git', 'commit', '-m', 'Actualiser la release et les téléchargements'], check=True)
+                  subprocess.run(['git', 'push', 'origin', 'HEAD:main'], check=True)
+              if os.environ.get('CLEANUP') == 'true':
+                  if not latest:
+                      raise ValueError('Aucune release disponible : suppression interdite')
+                  for old in older_releases(latest, releases):
+                      api('/releases/' + str(old['id']), method='DELETE')
+                      api('/git/refs/tags/' + urllib.parse.quote(old['tag_name'], safe=''), method='DELETE', missing_ok=True)
+              print('Téléchargements cumulés :', state['totalDownloads'])
+
+          if __name__ == '__main__':
+              main()
+          PY
