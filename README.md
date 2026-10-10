@@ -10,7 +10,7 @@
 Installez et gérez vos extensions pour Radiant, APE et le Mod Tools Launcher de **Call of Duty: Black Ops III** depuis une interface commune.
 
 [![Version](https://img.shields.io/github/v/release/starzismik/ZXG-MT-Modules?style=for-the-badge&color=2f80c9&label=VERSION)](https://github.com/starzismik/ZXG-MT-Modules/releases/latest)
-[![Téléchargements cumulés](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fstarzismik%2FZXG-MT-Modules%2Fmain%2Fdownloads.json%3Ftotal%3D4&style=for-the-badge&cacheSeconds=300)](https://github.com/starzismik/ZXG-MT-Modules/releases/latest)
+[![Téléchargements cumulés](https://img.shields.io/endpoint?url=https%3A%2F%2Fraw.githubusercontent.com%2Fstarzismik%2FZXG-MT-Modules%2Fmain%2Fdownloads.json%3Ftotal%3D5&style=for-the-badge&cacheSeconds=300)](https://github.com/starzismik/ZXG-MT-Modules/releases/latest)
 [![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-2f80c9?style=for-the-badge&logo=windows)](#configuration-requise)
 [![Discord](https://img.shields.io/badge/Discord-ModTools%20France-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/4cb3ENTXd4)
 
