@@ -108,3 +108,6 @@ Développé par **STARZISMIK**
 © 2026 STARZISMIK
 
 </div>
+
+
+> **Paquet 1.0.0 corrigé — 10 octobre 2026 :** nouveau splash [ZXG] MT Modules et remplacement automatique de l’ancien splash blanc. Retélécharge le ZIP de la release 1.0.0 pour continuer à utiliser l’application.
