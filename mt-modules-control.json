@@ -6,7 +6,7 @@
   "prototypeVersion": null,
   "replacementBuild": {
     "version": "1.0.0",
-    "revision": 2
+    "revision": 3
   },
-  "message": "Une mise à jour du paquet 1.0.0 est disponible : le splash [ZXG] MT Modules remplace le splash blanc Radiant. Retélécharge la version 1.0.0 corrigée pour continuer. Clique sur « Visiter mes dépôts GitHub », puis ouvre ZXG-MT-Modules et sa release 1.0.0."
+  "message": "Une mise à jour du paquet 1.0.0 est disponible : détection du SZC et correction du contrôle des modules. Télécharge la version 1.0.0 corrigée pour continuer."
 }
