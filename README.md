@@ -26,7 +26,7 @@ Installez et gérez vos extensions pour Radiant, APE et le Mod Tools Launcher de
 
 ## Présentation
 
-**[ZXG] MT Modules** centralise sept extensions pour les **Black Ops III Mod Tools**. L’application détecte votre installation, vous accompagne au premier lancement et permet d’activer les modules dont vous avez besoin.
+**[ZXG] MT Modules** centralise huit modules pour les **Black Ops III Mod Tools**. L’application détecte votre installation, vous accompagne au premier lancement et permet d’activer les modules dont vous avez besoin.
 
 Les modules sont installés localement et se chargent au prochain démarrage de l’outil concerné. Les dépendances sont prises en charge automatiquement.
 
@@ -41,6 +41,7 @@ Les modules sont installés localement et se chargent au prochain démarrage de 
 | Radiant Extension | Réglages et fonctions complémentaires de l’éditeur. |
 | APE Extension | Fonctions complémentaires pour l’édition des assets. |
 | Launcher Extension | Fonctions complémentaires du Mod Tools Launcher. |
+| UI Debug | Erreurs UI / Lua colorées, fichier et ligne, suivi automatique de la map et symboles préparés à la liaison. |
 
 Play Test et Live Edit ne sont pas inclus dans cette version.
 
@@ -52,7 +53,7 @@ Play Test et Live Edit ne sont pas inclus dans cette version.
 - Regroupement des panneaux ZXG dans Radiant.
 - Paramètres mémorisés et langue modifiable à tout moment.
 - Sons de survol, de clic et de changement de page intégrés.
-- Volume réglable, **8 % au premier lancement** ; 0 % coupe les sons.
+- Volume réglable, **30 % au premier lancement**, avec sons rééquilibrés ; 0 % coupe les sons.
 - Connexion Discord avec contrôle du rôle **Développeur** sur **MODTOOLS FRANCE**.
 - Vérification des versions et mise à jour obligatoire lorsqu’une nouvelle release est disponible.
 
@@ -95,6 +96,8 @@ Si l’installation n’est pas détectée, sélectionnez la racine de Black Ops
 
 Si un panneau n’apparaît pas, rouvrez Radiant après installation, puis utilisez **Vérifier les modules**. Pour Sound Studio, ouvrez et sauvegardez votre map dans Radiant.
 
+Pour UI Debug, installez ou réinstallez **Launcher Extension** avec les Mod Tools fermés, puis gardez MT Modules ou l’IA ouvert pendant la liaison et la partie. Les symboles Lua sont préparés automatiquement lors du Link.
+
 [Rejoindre MODTOOLS FRANCE](https://discord.gg/4cb3ENTXd4) · [Voir les releases](https://github.com/starzismik/ZXG-MT-Modules/releases/latest)
 
 ---
@@ -110,4 +113,3 @@ Développé par **STARZISMIK**
 </div>
 
 
-> **Paquet 1.0.0 corrigé — 10 octobre 2026 :** nouveau splash [ZXG] MT Modules et remplacement automatique de l’ancien splash blanc. Retélécharge le ZIP de la release 1.0.0 pour continuer à utiliser l’application.

@@ -2,11 +2,7 @@
   "schema": 1,
   "application": "ZXG-MT-Modules",
   "minimumVersion": "1.0.1",
-  "disabledThrough": "1.0.0",
+  "disabledThrough": null,
   "prototypeVersion": null,
-  "replacementBuild": {
-    "version": "1.0.0",
-    "revision": 3
-  },
-  "message": "Une mise à jour du paquet 1.0.0 est disponible : détection du SZC et correction du contrôle des modules. Télécharge la version 1.0.0 corrigée pour continuer."
+  "message": "La version 1.0.1 est disponible : ajout de UI Debug et suivi automatique de la map depuis le Mod Tools Launcher. Télécharge la nouvelle version pour continuer."
 }
