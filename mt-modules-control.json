@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "application": "ZXG-MT-Modules",
-  "minimumVersion": "1.0.0",
+  "minimumVersion": "1.0.1",
   "disabledThrough": "1.0.0",
   "prototypeVersion": null,
   "replacementBuild": {

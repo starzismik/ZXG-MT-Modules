@@ -14,7 +14,7 @@ Installez et gérez vos extensions pour Radiant, APE et le Mod Tools Launcher de
 [![Windows](https://img.shields.io/badge/Windows-10%20%7C%2011-2f80c9?style=for-the-badge&logo=windows)](#configuration-requise)
 [![Discord](https://img.shields.io/badge/Discord-ModTools%20France-5865F2?style=for-the-badge&logo=discord&logoColor=white)](https://discord.gg/4cb3ENTXd4)
 
-[**Télécharger la dernière version**](https://github.com/starzismik/ZXG-MT-Modules/releases/download/v1.0.0/ZXG-MT-Modules-1.0.0.zip)
+[**Télécharger la dernière version**](https://github.com/starzismik/ZXG-MT-Modules/releases/download/v1.0.1/ZXG-MT-Modules-1.0.1.zip)
 &nbsp; • &nbsp;
 [**Site officiel**](https://www.zxg.fr)
 &nbsp; • &nbsp;
@@ -64,8 +64,8 @@ Le réglage s’applique à l’interface MT Modules et à son assistant d’ins
 
 ## Installation
 
-1. [Téléchargez la dernière version](https://github.com/starzismik/ZXG-MT-Modules/releases/download/v1.0.0/ZXG-MT-Modules-1.0.0.zip).
-2. Extrayez l’archive, qui contient uniquement `ZXG-MT-Modules-1.0.0.exe`.
+1. [Téléchargez la dernière version](https://github.com/starzismik/ZXG-MT-Modules/releases/download/v1.0.1/ZXG-MT-Modules-1.0.1.zip).
+2. Extrayez l’archive, qui contient uniquement `ZXG-MT-Modules-1.0.1.exe`.
 3. Lancez l’exécutable, choisissez votre langue et connectez-vous avec Discord.
 4. Vérifiez le dossier Black Ops III détecté, puis choisissez vos modules.
 5. Fermez les Mod Tools et Black Ops III, installez les modules, puis rouvrez l’outil souhaité.
@@ -103,7 +103,7 @@ Si un panneau n’apparaît pas, rouvrez Radiant après installation, puis utili
 
 Développé par **STARZISMIK**
 
-**[ZXG] MT Modules — Version 1.0.0**
+**[ZXG] MT Modules — Version 1.0.1**
 
 © 2026 STARZISMIK
 
