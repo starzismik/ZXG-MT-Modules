@@ -1,7 +1,7 @@
 {
   "schema": 1,
   "application": "ZXG-MT-Modules",
-  "minimumVersion": "1.0.1",
+  "minimumVersion": "1.0.2",
   "disabledThrough": null,
   "prototypeVersion": null,
   "message": "La version 1.0.1 est disponible : ajout de UI Debug et suivi automatique de la map depuis le Mod Tools Launcher. Télécharge la nouvelle version pour continuer."
