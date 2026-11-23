@@ -57,6 +57,12 @@ Play Test et Live Edit ne sont pas inclus dans cette version.
 - Connexion Discord avec contrôle du rôle **Développeur** sur **MODTOOLS FRANCE**.
 - Vérification des versions et mise à jour obligatoire lorsqu’une nouvelle release est disponible.
 
+## Correctifs de la version 1.0.3
+
+- Le changement du dossier Black Ops III est enregistré et affiché immédiatement, y compris pour une installation sur un autre disque.
+- Les anciens rafraîchissements ne rétablissent plus le chemin précédent ; une sélection invalide affiche son erreur dans l’assistant.
+- Activation automatique des panneaux fiabilisée, avec journal détaillé et retour arrière en cas d’échec.
+
 ## Langues disponibles
 
 Français, anglais, espagnol, russe, allemand, italien, portugais, polonais et turc.
@@ -77,7 +83,7 @@ Les ressources nécessaires sont intégrées à l’exécutable portable.
 
 Lorsqu’une version plus récente est détectée, MT Modules affiche **Mise à jour requise** et bloque ses actions jusqu’à l’installation de cette version. Le bouton de téléchargement ouvre l’archive officielle.
 
-Remplacez votre ancien exécutable par le nouveau. Vos préférences et vos modules installés sont conservés. Seule la dernière release officielle reste disponible au téléchargement sur ce dépôt.
+Remplacez votre ancien exécutable par le nouveau. Vos préférences et vos modules installés sont conservés. Les versions précédentes restent archivées dans les releases.
 
 En cas de suspension du service, un écran **Cette application n’est plus disponible** remplace l’accès au gestionnaire. Les modules déjà installés dans les outils restent indépendants du gestionnaire.
 

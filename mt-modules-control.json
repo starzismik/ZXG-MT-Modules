@@ -4,5 +4,5 @@
   "minimumVersion": "1.0.3",
   "disabledThrough": null,
   "prototypeVersion": null,
-  "message": "La version 1.0.1 est disponible : ajout de UI Debug et suivi automatique de la map depuis le Mod Tools Launcher. Télécharge la nouvelle version pour continuer."
+  "message": "La version 1.0.3 corrige le choix du dossier Black Ops III et fiabilise l’activation automatique des modules. Télécharge la nouvelle version pour continuer."
 }
