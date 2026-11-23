@@ -31,7 +31,7 @@ jobs:
         env:
           GH_TOKEN: ${{ github.token }}
           REPOSITORY: ${{ github.repository }}
-          CLEANUP: ${{ github.event_name == 'release' || inputs.cleanup == true }}
+          CLEANUP: ${{ github.event_name == 'workflow_dispatch' && inputs.cleanup == true }}
         run: |
           python3 - <<'PY'
           import json, os, pathlib, re, subprocess, urllib.request, urllib.error, urllib.parse
